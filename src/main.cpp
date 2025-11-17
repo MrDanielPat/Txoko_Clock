@@ -5,6 +5,7 @@
 #include <GxEPD2_BW.h>
 #include <Adafruit_GFX.h>
 #include <Fonts/FreeSansBold24pt7b.h>
+#include <Fonts/FreeSansBold18pt7b.h>
 
 #include "secrets.h"
 
@@ -242,10 +243,10 @@ void dibujarPrecioBitcoin(float precio)
     display.drawRect(0, 0, display.width(), display.height(), GxEPD_BLACK);
 
       // Tamaño específico solo para la pantalla BTC
-    display.setFont(&FreeSansBold24pt7b);
+    display.setFont(&FreeSansBold18pt7b);
     display.setTextSize(1);
 
-    String linea1 = "BTC EUR";
+    String linea1 = "Precio BTC";
 
     char buffer[16];
     if (precio < 0)
@@ -254,8 +255,13 @@ void dibujarPrecioBitcoin(float precio)
     }
     else
     {
-      snprintf(buffer, sizeof(buffer), "%.0f", precio);
+      snprintf(buffer, sizeof(buffer), "%.0f EUR", precio);
     }
+
+    // Línea 2: precio (más grande)
+    display.setFont(&FreeSansBold24pt7b);
+    display.setTextSize(1);
+
     String linea2 = String(buffer);
 
     int16_t x1, y1;
@@ -318,12 +324,12 @@ void loop()
 
   unsigned long ahora = millis();
 
-  // alternar modo cada 15 minutos (900.000 ms)   900000
-  // 1 min = 60.000 ms                            60000
-  // 5 min = 300.000 ms                           300000
+  // alternar modo cada 15 minutos (900.000 ms)   Poner esto 900000
+  // 1 min = 60.000 ms                            Poner esto 60000
+  // 5 min = 300.000 ms                           Poner esto 300000
   // 10 min = 600.000 ms                          600000
 
-  if (ahora - ultimoCambio > 900000)
+  if (ahora - ultimoCambio > 300000)
   {
     ultimoCambio = ahora;
     modoBTC = !modoBTC;
